@@ -50,12 +50,13 @@ var quizQuestions = [{
 ]
 
 var timeLeft = 75;
-// start quiz
+var lastQuestion = false;
 function startQuiz() {
     // timer
     var timeInterval = setInterval(function () {
         if (timeLeft > 1) {
             timerEl.textContent = 'Time left:' + timeLeft;
+            if (lastQuestion) clearInterval(timeInterval);
             timeLeft--;
         } else {
             timerEl.textContent = '';
@@ -113,7 +114,42 @@ function answers(e) {
         display(currentIndex);
     }
 }
+var endScreen = document.getElementById("end-screen");
+function gameOver() {
+    // remove current content 
+    question.remove();
+    displayQuiz.remove();
+    results.remove();
+    lastQuestion = true;
+    // add new content
+    endScreen.classList.remove('hide');
+    // game end
+    finalScore.innerHTML = timeLeft;
+    // submit/get initials
+    var submit = document.getElementById("submit");
+    submit.addEventListener('click', function score() {
+        var initials = document.getElementById("initials").value;
+        console.log(initials);
+    })
+}
+var finalScore = document.getElementById("final-score");
 
+// localStorage
+submit.addEventListener('click', function setScore() {
+    var userScore = {
+        user: initials.value,
+        score: finalScore.innerHTML
+    }
+    // localStorage.setItem
+    localStorage.setItem("user", JSON.stringify(userScore));
+    // localStorage.getItem
+    var localData = JSON.parse(localStorage.getItem("userScore"));
+    console.log(localData);
+
+});
+
+
+// restart button that calls the start game function
 
 
 startBtn.onclick = startQuiz;
