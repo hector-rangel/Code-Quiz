@@ -4,8 +4,21 @@ var A = document.getElementById("A")
 var B = document.getElementById("B")
 var C = document.getElementById("C")
 var D = document.getElementById("D")
+var timeLeft = 75;
+var lastQuestion = false;
+var startPage = document.getElementById("startpage");
+var displayQuiz = document.getElementById("quiz");
+var question = document.getElementById("question");
+var currentIndex = 0;
+// track user input
+A.addEventListener('click', answers);
+B.addEventListener('click', answers);
+C.addEventListener('click', answers);
+D.addEventListener('click', answers);
+var results = document.getElementById("results");
+var endScreen = document.getElementById("end-screen");
+var finalScore = document.getElementById("final-score");
 
-// array questions
 //Array holding all the questions and answers bank
 var quizQuestions = [{
     question: "Commonly used data types DO NOT include:",
@@ -48,9 +61,7 @@ var quizQuestions = [{
     correctAnswer: "D"
 },
 ]
-
-var timeLeft = 75;
-var lastQuestion = false;
+// start quiz
 function startQuiz() {
     // timer
     var timeInterval = setInterval(function () {
@@ -66,12 +77,7 @@ function startQuiz() {
     display(currentIndex);
 }
 
-var startPage = document.getElementById("startpage");
-var displayQuiz = document.getElementById("quiz");
-var question = document.getElementById("question");
-var currentIndex = 0;
-
-
+// display questions/answers
 function display(index) {
     // get rid or replace startpage text with question array
     startPage.remove();
@@ -87,13 +93,7 @@ function display(index) {
     C.innerHTML = quizQuestions[index].choiceC;
     D.innerHTML = quizQuestions[index].choiceD;
 }
-// track user input
-A.addEventListener('click', answers);
-B.addEventListener('click', answers);
-C.addEventListener('click', answers);
-D.addEventListener('click', answers);
-var results = document.getElementById("results");
-
+// corrent or wrong answer function
 function answers(e) {
     // right or wrong
     var userInput = e.target.id;
@@ -114,7 +114,7 @@ function answers(e) {
         display(currentIndex);
     }
 }
-var endScreen = document.getElementById("end-screen");
+// game over 
 function gameOver() {
     // remove current content 
     question.remove();
@@ -132,7 +132,6 @@ function gameOver() {
         console.log(initials);
     })
 }
-var finalScore = document.getElementById("final-score");
 
 // localStorage
 submit.addEventListener('click', function setScore() {
@@ -142,14 +141,22 @@ submit.addEventListener('click', function setScore() {
     }
     // localStorage.setItem
     localStorage.setItem("user", JSON.stringify(userScore));
+
     // localStorage.getItem
+    //var newUser = {user: "name", score: "score"};
+    //console.log(newUser);
+
     var localData = JSON.parse(localStorage.getItem("userScore"));
     console.log(localData);
 
+    //localData.push(newUser);
+    //console.log(newUser);
+    
+    // display localData
+    //for (var i = 0; i < localData.length; i++) {
+    //    initials.value = localData[i];
+    //    finalScore.innerHTML = localData[i];
+    //}
 });
-
-
-// restart button that calls the start game function
-
 
 startBtn.onclick = startQuiz;
