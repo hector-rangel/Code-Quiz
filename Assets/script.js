@@ -126,8 +126,7 @@ function gameOver() {
     endScreen.classList.remove('hide');
     // game end
     finalScore.innerHTML = timeLeft;
-    // submit/get initials
-    //Capture Initials from Submit button
+    //get initials
     var submit = document.getElementById("submit")
     submit.addEventListener("click", function highscore() {
         var userInitials = userInput.value;
@@ -149,7 +148,6 @@ function gameOver() {
             userScore.push(finalScore);
             var newScore = JSON.stringify(userScore);
             localStorage.setItem("userScore", newScore);
-            //scoreDisplay();
         }
     })
 }
