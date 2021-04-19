@@ -18,6 +18,7 @@ D.addEventListener('click', answers);
 var results = document.getElementById("results");
 var endScreen = document.getElementById("end-screen");
 var finalScore = document.getElementById("final-score");
+var userInput = document.getElementById("initials");
 
 //Array holding all the questions and answers bank
 var quizQuestions = [{
@@ -126,37 +127,31 @@ function gameOver() {
     // game end
     finalScore.innerHTML = timeLeft;
     // submit/get initials
-    var submit = document.getElementById("submit");
-    submit.addEventListener('click', function score() {
-        var initials = document.getElementById("initials").value;
-        console.log(initials);
+    //Capture Initials from Submit button
+    var submit = document.getElementById("submit")
+    submit.addEventListener("click", function highscore() {
+        var userInitials = userInput.value;
+        if (userInitials === null) {
+            alert("Please add Initials")
+            return
+        } else {
+            var finalScore = {
+                initials: userInitials,
+                score: timeLeft
+            };
+            console.log(finalScore);
+            var userScore = localStorage.getItem('userScore');
+            if (userScore === null) {
+                userScore = [];
+            } else {
+                userScore = JSON.parse(userScore);
+            }
+            userScore.push(finalScore);
+            var newScore = JSON.stringify(userScore);
+            localStorage.setItem("userScore", newScore);
+            //scoreDisplay();
+        }
     })
 }
-
-// localStorage
-submit.addEventListener('click', function setScore() {
-    var userScore = {
-        user: initials.value,
-        score: finalScore.innerHTML
-    }
-    // localStorage.setItem
-    localStorage.setItem("user", JSON.stringify(userScore));
-
-    // localStorage.getItem
-    //var newUser = {user: "name", score: "score"};
-    //console.log(newUser);
-
-    var localData = JSON.parse(localStorage.getItem("userScore"));
-    console.log(localData);
-
-    //localData.push(newUser);
-    //console.log(newUser);
-    
-    // display localData
-    //for (var i = 0; i < localData.length; i++) {
-    //    initials.value = localData[i];
-    //    finalScore.innerHTML = localData[i];
-    //}
-});
 
 startBtn.onclick = startQuiz;
